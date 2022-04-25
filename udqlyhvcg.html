@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <h1>Quản lý học viên CodeGym</h1>
+    <table id="bang1">
+        <tr>
+            <td>Họ tên:</td>
+            <td><input placeholder="input here" id="nameP" type="text"></td>
+        </tr>
+        <tr>
+            <td>Tuổi:</td>
+            <td><input placeholder="input here" id="age" type="number"></td>
+        </tr>
+        <tr>
+            <td>Giới tính:</td>
+            <td><select id="sexual">
+                <option>Male</option>
+                <option>Female</option>
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Sđt:</td>
+            <td><input placeholder="inpute here" id="phone" type="text"></td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td><input placeholder="inpute here" id="emailP" type="text"></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <button onclick="khoitao()" id="add">Add HV</button>
+                <button onclick="luuchinhsua()" id="edit">Chỉnh Sửa</button>
+            </td>
+        </tr>
+        <br>
+        <br>
+    </table>
+    <table id="display" style="width: 70%; text-align: center" border="1px">
+
+    </table>
+</div>
+</body>
+</html>
+<script>
+    class Hocvien {
+        name
+        age
+        sexual
+        phone
+        email
+
+        constructor(name, age, sexual, phone, email) {
+            this.name = name;
+            this.age = age;
+            this.sexual = sexual;
+            this.phone = phone;
+            this.email = email;
+        }
+    }
+
+    let student = [new Hocvien('Hai', '26', 'Male', '0339001397', 'hoanghai.131096@gmail.com')]
+
+    function khoitao() {
+        let name = document.getElementById('nameP').value;
+        let age = document.getElementById('age').value;
+        let sexual = document.getElementById('sexual').value;
+        let phone = document.getElementById('phone').value;
+        let email = document.getElementById('emailP').value;
+        student.push(new Hocvien(name, age, sexual, phone, email));
+        console.log(student)
+        show();
+    }
+
+    function show() {
+
+        let str = "";
+        str =
+            "<tr align='center'>" +
+            "<td>STT</td>" +
+            "<td>Họ và tên</td>" +
+            "<td>Tuổi</td>" +
+            "<td>Giới tính</td>" +
+            "<td>Số điện thoại</td>" +
+            "<td>Email</td>" +
+            "<td colspan='2' align='center'>Tinh Chỉnh</td>"
+        "</tr>";
+        for (let i = 0; i < student.length; i++) {
+            str += "<tr>"
+            str += `<td>${i + 1}</td>`
+            str += `<td>${student[i].name}</td>`
+            str += `<td>${student[i].age}</td>`
+            str += `<td>${student[i].sexual}</td>`
+            str += `<td>${student[i].phone}</td>`
+            str += `<td>${student[i].email}</td>`
+            str += `<td><button onclick="showedit">Chỉnh Sửa</button> </td>`
+            str += `<td><button onclick="deleteS(${i})">Xóa</button> </td>`
+            str += `</tr>`
+        }
+        document.getElementById('display').innerHTML = str
+    }
+
+    let indexEdit = -1;
+
+    function showedit(index) {
+        document.getElementById('nameP').value = student[index].name;
+        document.getElementById('age').value = student[index].age;
+        document.getElementById('sexual').value = student[index].sexual;
+        document.getElementById('phone').value = student[index].phone;
+        document.getElementById('emailP').value = student[index].email;
+        indexEdit = index;
+    }
+
+    function luuchinhsua() {
+        let name = document.getElementById('nameP').value;
+        let age = document.getElementById('age').value;
+        let sexual = document.getElementById('sexual').value;
+        let phone = document.getElementById('phone').value;
+        let email = document.getElementById('emailP').value;
+
+        student[indexEdit] = new Hocvien(name, age, sexual, phone, email);
+        show();
+        indexEdit = -1;
+    }
+
+    function deleteS(index) {
+        student.splice(index, 1);
+        show();
+    }
+
+    show();
+</script>
